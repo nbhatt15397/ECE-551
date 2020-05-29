@@ -1,0 +1,25 @@
+Pulse Width Modulation (PWM) is a way to use electricity to control analog devices using a digital signal. By changing the pulse width, we change the average amount of voltage seen
+by circuit. While a signal will always be either at a high (digital 1) or low (digital 0) value, the proportion of time that 
+the signal is high can be altered. The two prominent components of a PWM signal are - a duty cycle and a frequency. 
+
+The duty cycle describes the amount of time the signal is high as a percentage of the total time of it takes to complete one cycle. 
+The frequency is how fast the PWM completes a cycle i.e. how fast it switches between high and low states. 
+
+When we cycle a digital signal off and on at a fast enough speed and with a certain duty cycle, the output appears like a constant voltage 
+analog signal when providing power to devices, this has several applications. 
+
+Applications : 
+1) When we pulse the power supply on and off at a certain frequency and with a certain pulse width, we can control the brightness of lighting such as 
+standard bulbs or LEDs by adjusting the duty cycle. With an RGB LED, you can control how much of each of the three colors you want by 
+dimming them by various amounts.
+
+2) Power electronic Applications : We can even control the speed of motors using PWM.
+It also allows us to make very efficient power supplies such a step up, steup down and regulated i.e. switch mode power supplies. The switch mode in the name
+refers to the pulse width modulation techniques. 
+
+3)Communication applications : Since the PWM signal remains digital all the way from the processor to the controlled system; no digital-to-analog conversion is necessary. 
+Since the signal is kept digital, noise is minimized.  PWM signals provide enhanced noise immunity and so are preferred over analog control signals, and 
+that is why it is used for communication. Switching from an analog signal to PWM can increase the length of a communications channel dramatically.
+
+4)The motherboard of our computers also uses PWM signals to run its fan with power pulses.If PWM is not used and power is continuousely 
+provided, then it may cause a severe harm to the board, as the board will run with full speed without any pause. 

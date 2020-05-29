@@ -1,0 +1,81 @@
+######################################
+### READ FILE INTO DESIGN VISION ##### 
+######################################
+read_file -format sverilog {./UART_rx.sv ./UART.sv ./UART_tx.sv}
+
+######################################
+###Set Current Design as TOP level ###
+######################################
+set current_design UART
+link
+
+######################################
+###  Creating clock constraints    ###
+######################################
+create_clock -name "clk" -period 2.5 -waveform {0 1.25} {clk}
+set_dont_touch_network [find port clk]
+
+
+########################################################################
+#### Setting var in_wo_clk to have all vals of inputs except for clk####
+########################################################################
+ set in_wo_clk [remove_from_collection [all_inputs] [find port clk]]
+
+################################################
+##Sets delay of all inputs in in_wo_clk to 0.5##
+################################################
+ set_input_delay -clock clk 0.5 $in_wo_clk
+
+####################################################################
+#####Sets drive strengh of all inputs but clk to that of AND gate###
+####################################################################
+ set_driving_cell -lib_cell NAND2X1_RVT -library saed32rvt_tt0p85v25c $in_wo_clk
+ set_drive 0.1 rst_n 
+
+ ##################################################################
+ ############## Setting Output Delay Constraints ##################
+ ##################################################################
+ set_output_delay -clock clk 0.5 [all_outputs]
+ set_load 0.1 [all_outputs]	
+
+#######################################################
+###########Set wire load and transition time###########
+#######################################################
+set_max_transition 0.15 [current_design]
+set_wire_load_model -name 16000 -library saed32rvt_tt0p85v25c
+
+#############################################
+#############Compile the design##############
+#############################################
+compile -map_effort medium 
+
+#############################################
+############ Flatted Hierarchy ##############
+#############################################
+ungroup -all -flatten 
+
+#############################################
+############### 2nd Compile #################
+#############################################
+compile -map_effort medium 
+
+##########################################################################
+##### Tests for max, min timing delays and area and generates reports ####
+##########################################################################
+report_timing -delay max > max_delay.rpt
+report_timing -delay min > min_delay.rpt
+report_area > UART_area.txt
+
+###############################################################
+## Creates a file called UART.vg that has gate level netlist ###
+###############################################################
+write -format verilog UART -output UART.vg
+
+########################
+### Outputs a sdc file##
+########################
+write_sdc UART.sdc
+
+
+
+

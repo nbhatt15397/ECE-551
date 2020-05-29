@@ -1,0 +1,1 @@
+Used professor's provided UART, UART_tx and UAT_rx modules.

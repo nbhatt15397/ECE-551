@@ -1,0 +1,5 @@
+In this waveform we can observe that,tx_data is x03
+When rx_data fully receives all the bits, clr_rdy is asserted, rdy is asserted and the rx_data value, finally after counting up, reaches the value of x03.
+After this we can observe the trmt signal is high, so the next data byte is ready to be transferred i.e. tx_data = x04, and so rx_data begins to 
+receive the data and so we see the values in the rx_data waveform changing from the previously set x03 value to new bits that are being shifted into the 
+receiver. Eventually, when all bits are received, rx_data = 04, and rdy and clr_rdy are set to 1. 

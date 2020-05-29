@@ -1,0 +1,107 @@
+############################################################
+###################Read Verilog File first##################
+############################################################
+
+read_file -format sverilog {./LA_dig.sv ./clk_rst_smpl.sv ./RAMqueue.sv ./dig_core.sv ./trigger.sv ./UART_tx.sv ./data_comp.sv ./cmd_cfg.sv ./pwm8.sv ./UART.sv ./UART_wrapper.sv ./capture.sv ./UART_rx.sv ./dual_PWM.sv ./channel_sample.sv ./trigger_logic.sv ./chnnl_trig.sv ./prot_trig.sv ./UART_RX_prot.sv ./SPI_RX.sv}
+
+####################################################################
+#####Set Current Design to top level and link with children ########
+####################################################################
+set current_design LA_dig
+link
+
+####################################################################
+############## Creating clks and assigning constraints #############
+####################################################################
+
+create_clock -name "clk400MHz" -period 1.0 -waveform {0 0.5} {clk400MHz} 
+
+create_generated_clock -name "clk" -source [get_port clk400MHz] -divide_by 4 [get_pins iCLKRST/clk]
+
+create_generated_clock -name "smpl_clk" -source [get_port clk400MHz] -divide_by 1 [get_pins iCLKRST/smpl_clk]
+
+set_dont_touch_network [get_pins iCLKRST/clk400MHz]
+set_dont_touch_network [get_pins iCLKRST/clk]
+set_dont_touch_network [get_pins iCLKRST/smpl_clk] 
+set_dont_touch [find design RAMqueue*] 
+
+#################################################################
+########### Timing Constraints and driving ######################
+#################################################################
+
+ set prim_inputs [remove_from_collection [all_inputs] [find port clk]]
+
+ set_input_delay 0.25 -clock smpl_clk -clock_fall [get_port CH*] 
+
+ set_input_delay 0.25 -clock clk400MHz [get_port RST_n]
+
+ set_input_delay 0.25 -clock clk400MHz [get_port locked]
+
+ set_input_delay -clock clk 0.25 [get_port RX] 
+
+ ######################################################
+ ################Setting False Paths ##################
+ ######################################################
+ set_false_path -from [get_cell iDIG/iCMD/decimator*]
+ set_false_path -from [get_cell iCOMM/high_byte*] 
+
+
+########################################################
+################ Set output delay & output load #######
+#######################################################
+set_output_delay -clock clk 0.5 [all_outputs]           
+set_load 0.05 [all_outputs]
+
+
+######################################################
+############# set input drive strength ##############
+####################################################
+set_driving_cell -lib_cell NAND2X1_RVT -library saed32rvt_tt0p85v25c $prim_inputs
+
+
+###########################################################
+###########Set wire load & max transition time###########
+##########################################################
+
+set_max_transition 0.15 [current_design]
+set_wire_load_model -name 16000 -library saed32rvt_tt0p85v25c
+
+#######################################################
+############# Apply clk uncertainity #################
+#####################################################
+set_clock_uncertainty 0.2 clk            
+
+#################################################
+############## Corrects timing error ############
+#################################################
+set_fix_hold clk                         
+
+#############################################
+#############Compile the design##############
+#############################################
+compile -map_effort medium 
+
+#############################################
+############ Flatted Hierarchy ##############
+#############################################
+ungroup -all -flatten 
+
+#############################################
+############### 2nd Compile #################
+#############################################
+compile -map_effort medium 
+
+###########################################################################
+############# Generate different reports  6634 was prof's area ############
+###########################################################################
+report_timing -delay max > max_timing.rpt
+report_timing -delay min > min_timing.rpt
+report_area > area.rpt
+
+##################################################################
+## Creates a file called LA_dig.vg that has gate level netlist ###
+##################################################################
+write -format verilog LA_dig -output LA_dig.vg
+
+
+

@@ -1,0 +1,2 @@
+When I initially worked on this, I made a mistake and made 2 versions of the UART_tx, this file is named UART_because I lost the file I had initially written. Please
+do not reduce my points for this, the Transmitter works like its supposed to !

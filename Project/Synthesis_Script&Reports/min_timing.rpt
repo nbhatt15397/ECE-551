@@ -1,0 +1,118 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 1
+Design : LA_dig
+Version: P-2019.03
+Date   : Fri May  1 23:44:28 2020
+****************************************
+
+Operating Conditions: tt0p85v25c   Library: saed32rvt_tt0p85v25c
+Wire Load Model Mode: enclosed
+
+  Startpoint: iDIG/iTRG/iProt/iUARTprot/bit_cnt_reg[0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: iDIG/iTRG/iProt/iUARTprot/bit_cnt_reg[0]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  LA_dig             16000                 saed32rvt_tt0p85v25c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  iDIG/iTRG/iProt/iUARTprot/bit_cnt_reg[0]/CLK (DFFARX1_RVT)
+                                                          0.00       0.00 r
+  iDIG/iTRG/iProt/iUARTprot/bit_cnt_reg[0]/QN (DFFARX1_RVT)
+                                                          0.10       0.10 f
+  U312/Y (AO22X1_RVT)                                     0.09       0.18 f
+  iDIG/iTRG/iProt/iUARTprot/bit_cnt_reg[0]/D (DFFARX1_RVT)
+                                                          0.01       0.19 f
+  data arrival time                                                  0.19
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.20       0.20
+  iDIG/iTRG/iProt/iUARTprot/bit_cnt_reg[0]/CLK (DFFARX1_RVT)
+                                                          0.00       0.20 r
+  library hold time                                      -0.01       0.19
+  data required time                                                 0.19
+  --------------------------------------------------------------------------
+  data required time                                                 0.19
+  data arrival time                                                 -0.19
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
+
+
+  Startpoint: iCLKRST/decimator_cnt_reg[0]
+              (falling edge-triggered flip-flop clocked by clk400MHz)
+  Endpoint: iCLKRST/decimator_cnt_reg[0]
+            (falling edge-triggered flip-flop clocked by clk400MHz)
+  Path Group: clk400MHz
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  LA_dig             16000                 saed32rvt_tt0p85v25c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk400MHz (fall edge)                             0.50       0.50
+  clock network delay (ideal)                             0.00       0.50
+  iCLKRST/decimator_cnt_reg[0]/CLK (DFFNX1_RVT)           0.00       0.50 f
+  iCLKRST/decimator_cnt_reg[0]/QN (DFFNX1_RVT)            0.09       0.59 r
+  U865/Y (AND2X1_RVT)                                     0.06       0.64 r
+  iCLKRST/decimator_cnt_reg[0]/D (DFFNX1_RVT)             0.01       0.65 r
+  data arrival time                                                  0.65
+
+  clock clk400MHz (fall edge)                             0.50       0.50
+  clock network delay (ideal)                             0.00       0.50
+  iCLKRST/decimator_cnt_reg[0]/CLK (DFFNX1_RVT)           0.00       0.50 f
+  library hold time                                      -0.01       0.49
+  data required time                                                 0.49
+  --------------------------------------------------------------------------
+  data required time                                                 0.49
+  data arrival time                                                 -0.65
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.16
+
+
+  Startpoint: iDIG/iCH1smpl/ff1xH_reg
+              (falling edge-triggered flip-flop clocked by smpl_clk)
+  Endpoint: iDIG/iCH1smpl/ff2xH_reg
+            (falling edge-triggered flip-flop clocked by smpl_clk)
+  Path Group: smpl_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  LA_dig             16000                 saed32rvt_tt0p85v25c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock smpl_clk (fall edge)                              0.50       0.50
+  clock network delay (ideal)                             0.00       0.50
+  iDIG/iCH1smpl/ff1xH_reg/CLK (DFFNX1_RVT)                0.00       0.50 f
+  iDIG/iCH1smpl/ff1xH_reg/Q (DFFNX1_RVT)                  0.12       0.62 r
+  iDIG/iCH1smpl/ff2xH_reg/D (DFFNX1_RVT)                  0.01       0.63 r
+  data arrival time                                                  0.63
+
+  clock smpl_clk (fall edge)                              0.50       0.50
+  clock network delay (ideal)                             0.00       0.50
+  iDIG/iCH1smpl/ff2xH_reg/CLK (DFFNX1_RVT)                0.00       0.50 f
+  library hold time                                      -0.01       0.49
+  data required time                                                 0.49
+  --------------------------------------------------------------------------
+  data required time                                                 0.49
+  data arrival time                                                 -0.63
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.14
+
+
+1
